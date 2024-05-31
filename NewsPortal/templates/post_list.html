@@ -23,7 +23,9 @@
                 <td><u><a href=""> Категория </a> </u></td>
                 <td><u>Редактировать</u></td>
                 <td><u>Удалить</u></td>
+                <td><u></u></td>
                 <td><u>Подписка</u></td>
+                <td><u>Отписаться</u></td>
             </tr>
             {% for post in posts %}
                 <tr>
@@ -34,8 +36,10 @@
                     <td>{{ cat.name }}</td>
                     <td><p><button> <a href="http://127.0.0.1:8000/news/{{post.pk}}/edit/"> Редактировать </a> </button></p></td>
                     <td><p><button> <a href="http://127.0.0.1:8000/news/{{post.pk}}/delete/"> Удалить </a> </button></p></td>
-                    <td><p><button> <a href="http://127.0.0.1:8000/appointments/make_appointment/"> Подписаться </a> </button></p></td>
+                    <td><p><button> <a href="http://127.0.0.1:8000/categories/{{cat.pk}}"> Категории </a> </button></p></td>
                     <td><p><button> <a href="http://127.0.0.1:8000/categories/{{cat.pk}}/subscribe"> SUBSCRIBE </a> </button></p></td>
+                    <td><p><button> <a href="http://127.0.0.1:8000/categories/{{cat.pk}}/unsubscribe"> UNSUBSCRIBE </a> </button></p></td>
+
                     {% endfor %}
                 </tr>
             {% endfor %}

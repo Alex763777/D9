@@ -142,7 +142,7 @@ def upgrade_me(request):  # Функция для обновления прав 
 
 class CategoryListView(NewsList):  # подписка на категорию новостей
     model = Post
-    template_name = 'news/category_list.html'  # на шаблон сос списком новостей
+    template_name = 'news/category_search.html'  # на шаблон сос списком новостей
     context_object_name = 'category_news_list'
 
     def get_queryset(self):
@@ -164,6 +164,14 @@ def subscribe(request, pk):
 
     message = 'Вы успешно подписались на рассылку новостей категории'
     return render(request, 'subscribe.html', {'category': category, 'message': message})  # на шаблон успешной подписки
+
+def unsubscribe(request, pk):
+    user = request.user
+    category = Category.objects.get(id=pk)
+    category.subscribers.add(user)
+
+    message = 'Вы успешно отписались от рассылки новостей категории'
+    return render(request, 'unsubscribe.html', {'category': category, 'message': message})  # на шаблон успешной подписки
 
 
 class AppointmentView(View):
@@ -206,3 +214,10 @@ class AppointmentView(View):
 class AppointmentSuccessView(View):
     def get(self, request):
         return render(request, 'appointment_success.html')
+
+class CategorySearch(LoginRequiredMixin, ListView):
+    model = Post  # Указываем модель, объекты которой мы будем выводить
+    template_name = 'category_search.html'  # имя шаблона, все инструкции, как показаны наши объекты
+    context_object_name = 'posts'  # Имя списка, все объекты. Его надо указать, чтобы обратиться в html-шаблоне.
+    ordering = '-date_in'
+    # paginate_by = 10  # количество записей на странице
