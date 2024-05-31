@@ -178,7 +178,7 @@ def category(request, pk):
     category = Category.objects.get(id=pk)
     category.subscribers.add(user)
 
-    message = 'Вы выбрали категорию: '
+    message = 'Вы выбрали категорию:  '
     return render(request, 'category_search.html', {'category': category, 'message': message})  # на шаблон успешной подписки
 
 
