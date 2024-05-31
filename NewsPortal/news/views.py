@@ -171,7 +171,15 @@ def unsubscribe(request, pk):
     category.subscribers.add(user)
 
     message = 'Вы успешно отписались от рассылки новостей категории'
-    return render(request, 'unsubscribe.html', {'category': category, 'message': message})  # на шаблон успешной подписки
+    return render(request, 'unsubscribe.html', {'category': category, 'message': message})  # на шаблон  отписки
+
+def category(request, pk):
+    user = request.user
+    category = Category.objects.get(id=pk)
+    category.subscribers.add(user)
+
+    message = 'Вы выбрали категорию: '
+    return render(request, 'category_search.html', {'category': category, 'message': message})  # на шаблон успешной подписки
 
 
 class AppointmentView(View):

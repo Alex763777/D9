@@ -1,5 +1,5 @@
 from .views import IndexView, BaseRegisterView, upgrade_me, AppointmentView, AppointmentSuccessView, CategoryListView, \
-    subscribe, unsubscribe, CategorySearch
+    subscribe, unsubscribe, CategorySearch, category
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
 from .views import NewsList, NewsDetail, NewsSearch, PostCreate, PostUpdate, PostDelete, ArticlesUpdate, ArticlesDelete, ArticlesCreate
@@ -23,8 +23,10 @@ urlpatterns = [
     path('sign/upgrade/', upgrade_me, name='upgrade'),
     path('appointments/make_appointment/', AppointmentView.as_view(), name='make_appointment'),
     path('appointments/appointment_success/', AppointmentSuccessView.as_view(), name='appointment_success'),
-    path('categories/<int:pk>', CategorySearch.as_view(), name='category_search'),
+    # path('categories/<int:pk>', CategorySearch.as_view(template_name='category_search.html'), name='category_news_list'),
+    path('categories/<int:pk>/category', category, name='category_search'),
     path('categories/<int:pk>/subscribe', subscribe, name='subscribe'),
     path('categories/<int:pk>/unsubscribe', unsubscribe, name='unsubscribe'),
+    # path('categories/<int:pk>', CategorySearch.as_view(), name='category_search'),
     # path('categories/<int:pk>', CategoryListView.as_view(), name='category_list')
 ]
