@@ -1,0 +1,88 @@
+Comands 'News Portal' in Django shell..
+=============================================================
+cd NewsPortal
+--------------------------------------
+python manage.py shell
+from news.models import *
+
+u1 = User.objects.create_user(username='Maximus')
+u2 = User.objects.create_user(username=' Alejandro')
+
+a1 = Author.objects.create(user=u1)
+a2 = Author.objects.create(user=u2)
+
+cat1 = Category.objects.create(name ='Спорт')
+cat2 = Category.objects.create(name ='Техника')
+cat3 = Category.objects.create(name ='Строительство')
+cat4 = Category.objects.create(name ='Искусство')
+cat5 = Category.objects.create(name ='Сад-Огород')
+
+p1 = Post.objects.create(title='Плавание', text='Заплыв спортсменов', author=a1, post_type='NW')
+p2 = Post.objects.create(title='Кран-балка', text=' Кран-балка состоит из', author=a1, post_type='AR')
+p3 = Post.objects.create(title='Дом', text='Строительство дома', author=a2, post_type='NW')
+p4 = Post.objects.create(title='Урожайная редиска', text='И выросла редиска большая и не очень маленькая', author=a2, post_type='NW')
+p5 = Post.objects.create(title='Урожай', text='Все заросло травой', author=a2, post_type='NW')
+p6 = Post.objects.create(title='Креатив', text='Интеллектуальность человека', author=a1, post_type='NW')
+p7 = Post.objects.create(title='Технология', text='Резкий рост', author=a2, post_type='NW')
+p8 = Post.objects.create(title='Прыжки', text='Команда сборной', author=a1, post_type='AR')
+p9 = Post.objects.create(title='Микрорайон', text='Новый микрорайон', author=a2, post_type='NW')
+p10 = Post.objects.create(title='Офис', text='Офис реконструировали', author=a2, post_type='AR')
+p11 = Post.objects.create(title='Картина', text='Картина маслом', author=a1, post_type='NW')
+
+p1.category.add(cat1, cat4)
+p2.category.add(cat2, cat3)
+p3.category.add(cat3, cat4)
+p4.category.add(cat5)
+p5.category.add(cat5)
+p6.category.add(cat4)
+p7.category.add(cat2)
+p8.category.add(cat1)
+p9.category.add(cat3)
+p10.category.add(cat3)
+p11.category.add(cat4)
+
+c1 = Comment.objects.create(text='Нормально', post=p1, user=a2.user)
+c2 = Comment.objects.create(text='Не понятно', post=p2, user=a2.user)
+c3 = Comment.objects.create(text='состав где?', post=p3, user=a1.user)
+c4 = Comment.objects.create(text='в следующей статье', post=p3, user=a2.user)
+c5 = Comment.objects.create(text='вот тебе и редиска', post=p4, user=a1.user)
+
+p1.like()
+p2.dislike()
+p3.like()
+p3.like()
+c1.dislike()
+c2.like()
+c3.like()
+c4.dislike()
+
+a1.update_rating()
+a2.update_rating()
+a1.rating
+a2.rating
+
+authors = Author.objects.order_by('-rating')
+best_author = Author.objects.order_by('-rating').first()
+best_author.user.username
+
+best_post = Post.objects.order_by('-rating').first()
+best_post.date_in
+best_post.author.user.username
+best_post.rating
+best_post.title
+best_post.preview()
+
+comments_best_post = Comment.objects.filter(post=best_post)
+comments_best_post.values('date_in', 'user__username', 'rating', 'text')
+
+quit()
+
+from django.contrib.auth.models import Group, Permission
+from django.contrib.contenttypes.models import ContentType
+from .models import Post
+
+add_post_permission = Permission.objects.get(codename='add_post')
+change_post_permission = Permission.objects.get(codename='change_post')
+post_content_type = ContentType.objects.get_for_model(Post)
+authors_group, created = Group.objects.get_or_create(name='authors')
+authors_group.permissions.add(add_post_permission, change_post_permission

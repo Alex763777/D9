@@ -1,0 +1,34 @@
+{% extends 'default.html' %}
+{% load censor_filter %}
+
+
+{% block content %}
+    {% if is_not_subscriber %}
+        <p class="text-center"><a href="{% url 'subscribe' category.id %}" class="btn btn-secondary btn-sm"> Подписаться </a> </p>
+    {% endif %}
+
+{% if post %}
+
+
+<table width="70%" style="margin-top: 35px">
+    <tr>
+        <td><u>Заголовок</u></td>
+        <td><u>Дата публикации</u></td>
+        <td><u>Содержание</u></td>
+        <td><u>Категория</u></td>
+    </tr>
+    <tr>
+        <td>{{ post.title|censor }}</td>
+        <td>{{ post.date_in|date:'d.M.Y' }}</td>
+        <td>{{ post.text|censor }}</td>
+        {% for cat in post.category.all %}
+        <td>{{ cat.name }}</td>
+        {% endfor %}
+    </tr>
+</table>
+{% else %}
+<h3> Публикаций нет! </h3>
+{% endif %}
+
+
+{% endblock content %}

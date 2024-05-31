@@ -1,0 +1,25 @@
+…или создайте новый репозиторий в командной строке
+    echo "# NP-9.5.4" >> README.md
+    git init
+    git add README.md
+    git commit -m "первая фиксация"
+    git ветка -M main
+    git удаленное добавление источника https://github.com/Alex763777/NP- 9.5.4.git
+    git push -u origin main
+
+…или отправить существующий репозиторий из командной строки
+    git удаленное добавление источника https://github.com/Alex763777/NP-9.5.4.git
+    git Branch -M main
+    git push -u origin main
+
+=============================================================
+Для GIT:
+1. create git Repository
+2. manage remotes
+3. https://github.com/Alex763777/NP-9.5.4.git
+4. commit
+5. push
+6. commit (выбор файла)
+7. push
+8. обновить git
+=================================

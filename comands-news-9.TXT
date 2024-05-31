@@ -1,0 +1,28 @@
+Comands 'News Portal' in Django (D9).
+=============================================================
+cd NewsPortal
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
+python -m venv venv
+venv\scripts\activate
+========================================
+python manage.py runserver
+--------------------------------------
+http://127.0.0.1:8000/accounts/signup/
+http://127.0.0.1:8000/categories/1
+========================================
+python manage.py shell
+from news.forms import PostForm
+=============================================================
+Для GIT:
+1. create git Repository
+2. manage remotes
+3. https://github.com/Alex763777/D9.git
+=================================
+для пакетов:
+pip freeze > Packages.txt
+pip uninstall -r Packages.txt
+pip install -r Packages.txt
+------------------------------
+pip install python-dotenv

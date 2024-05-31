@@ -1,0 +1,77 @@
+{% extends 'default.html' %}
+{% load censor_filter %}
+
+{% block content %}
+
+    <form action="" method="get">
+        <p>&nbsp;</p>
+        {{ filterset.form.as_p }}
+        <input type="submit" value="Найти" />
+    </form>
+
+    {% if is_not_subscriber %}
+        <p class="text-center"><a href="{% url 'subscribe' category.id %}" class="btn btn-secondary btn-sm"> ПоДписаться </a> </p>
+    {% endif %}
+
+    {% if category_news_list %}
+        <h2>Количество постов: {{ posts|length }}</h2>
+        <table width="70%" style="margin-top: 35px">
+            <tr>
+                <td><u><a href=""> Заголовок </a> </u></td>
+                <td><u>Дата публикации</u></td>
+                <td><u>Содержание</u></td>
+                <td><u><a href=""> Категория </a> </u></td>
+                <td><u>Редактировать</u></td>
+                <td><u>Удалить</u></td>
+                <td><u>Подписка</u></td>
+            </tr>
+            {% for post in category_news_list %}
+                <tr>
+                    <td>{{ post.title|censor }}</td>
+                    <td>{{ post.date_in|date:'d M Y' }}</td>
+                    <td>{{ post.text|censor|truncatewords:20 }}</td>
+                     <td>
+                         {% for category in post.category.all %}
+                            <a href="{% url 'category_list' category.id %}">{{ category }}</a>
+
+                         {% endfor %}
+                     </td>
+                    {% for cat in post.category.all %}
+                    <td>{{ cat.name }}</td>
+                    <td><p><button> <a href="http://127.0.0.1:8000/news/{{post.pk}}/edit/"> Редактировать </a> </button></p></td>
+                    <td><p><button> <a href="http://127.0.0.1:8000/news/{{post.pk}}/delete/"> Удалить </a> </button></p></td>
+                    <td><p><button> <a href="http://127.0.0.1:8000/appointments/make_appointment/"> Подписаться </a> </button></p></td>
+                    <td><p><button> <a href="http://127.0.0.1:8000/categories/{{cat.pk}}/subscribe"> SUBSCRIBE </a> </button></p></td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <h3> Публикаций нет! </h3>
+    {% endif %}
+
+   {% if page_obj.has_previous %}
+       {# Для каждой ссылки пагинации указываем обработку через новый тег #}
+       <a href="?{% url_replace page=1 %}">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+   {{ page_obj.number }}
+
+   {% if page_obj.has_next %}
+       <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+
+{% if is_not_premium %}
+    <<p><button> <a href="/sign/upgrade/"> Хочу к Авторам!!</a> </button></p>
+{% endif %}
+
+{% endblock content %}
+
