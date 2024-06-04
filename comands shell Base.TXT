@@ -85,4 +85,19 @@ add_post_permission = Permission.objects.get(codename='add_post')
 change_post_permission = Permission.objects.get(codename='change_post')
 post_content_type = ContentType.objects.get_for_model(Post)
 authors_group, created = Group.objects.get_or_create(name='authors')
-authors_group.permissions.add(add_post_permission, change_post_permission
+authors_group.permissions.add(add_post_permission, change_post_permission)
+============================
+Post.objects.all()
+PostCategory.objects.all()
+--------------------------------
+from news.models import Category
+categories = Category.objects.all()
+for category in categories:
+    print(category.name)
+
+from news.models import Post, Category, PostCategory
+post_categories = PostCategory.objects.select_related('post', 'category').all() # Получаю все записи из PostCategory
+for pc in post_categories:   # Вывожу посты и их категории
+    print(f'Post: {pc.post.title}')
+    print(f'Category: {pc.category.name}')
+    print('-' * 40)

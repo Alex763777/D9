@@ -229,3 +229,20 @@ class CategorySearch(LoginRequiredMixin, ListView):
     context_object_name = 'posts'  # Имя списка, все объекты. Его надо указать, чтобы обратиться в html-шаблоне.
     ordering = '-date_in'
     # paginate_by = 10  # количество записей на странице
+
+def list1(request):  # в приложении добавил представление, чтобы получать посты и их категории и передавать их в шаблон
+    posts = Post.objects.all()
+    post_categories = {}
+
+    for post in posts:
+        categories = post.category.all()
+        post_categories[post] = categories
+
+    return render(request, 'list1.html', {'post_categories': post_categories})
+
+
+def list2(request, pk):  # в приложении добавил представление, чтобы получать посты и их категории и передавать их в шаблон
+    post = get_object_or_404(Post, pk=pk)  # по pk
+    categories = post.category.all()  # все категории этого поста
+
+    return render(request, 'list1.html', {'post': post, 'categories': categories})

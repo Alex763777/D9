@@ -14,6 +14,7 @@ http://127.0.0.1:8000/categories/1
 ========================================
 python manage.py shell
 from news.forms import PostForm
+from news.models import *
 =============================================================
 Для GIT:
 1. create git Repository
@@ -26,3 +27,15 @@ pip uninstall -r Packages.txt
 pip install -r Packages.txt
 ------------------------------
 pip install python-dotenv
+==============================================================
+from news.models import Category
+categories = Category.objects.all()
+for category in categories:
+    print(category.name)
+
+from news.models import Post, Category, PostCategory
+post_categories = PostCategory.objects.select_related('post', 'category').all() # Получаю все записи из PostCategory
+for pc in post_categories:   # Вывожу посты и их категории
+    print(f'Post: {pc.post.title}')
+    print(f'Category: {pc.category.name}')
+    print('-' * 40)

@@ -1,5 +1,7 @@
+import list1
+
 from .views import IndexView, BaseRegisterView, upgrade_me, AppointmentView, AppointmentSuccessView, CategoryListView, \
-    subscribe, unsubscribe, CategorySearch, category
+    subscribe, unsubscribe, CategorySearch, category, list1, list2
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
 from .views import NewsList, NewsDetail, NewsSearch, PostCreate, PostUpdate, PostDelete, ArticlesUpdate, ArticlesDelete, ArticlesCreate
@@ -29,4 +31,7 @@ urlpatterns = [
     path('categories/<int:pk>/unsubscribe', unsubscribe, name='unsubscribe'),
     # path('categories/<int:pk>', CategorySearch.as_view(), name='category_search'),
     # path('categories/<int:pk>', CategoryListView.as_view(), name='category_list')
+    path('posts/', list1, name='list1'),
+    path('categories/<int:pk>/list1', list1, name='list1'),
+    path('categories/<int:pk>/list2', list2, name='list2'),
 ]
